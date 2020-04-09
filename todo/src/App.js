@@ -11,14 +11,6 @@ function App() {
     setNewTodoText(e.target.value);
   };
 
-  const onToggleCompleted = todo => {
-    // console.log(todo.id);
-    return dispatch({
-      type: "TOGGLE_TODO",
-      payload: todo.id
-    });
-  };
-
   const onFormSubmit = e => {
     e.preventDefault();
     dispatch({
@@ -26,6 +18,20 @@ function App() {
       payload: { item: newTodoText, completed: false, id: uuidv4() }
     });
     setNewTodoText("");
+  };
+
+  const onToggleCompleted = todo => {
+    return dispatch({
+      type: "TOGGLE_TODO",
+      payload: todo.id
+    });
+  };
+
+  const onClearCompleted = e => {
+    e.preventDefault();
+    return dispatch({
+      type: "CLEAR_COMPLETED"
+    });
   };
 
   return (
@@ -42,8 +48,14 @@ function App() {
               value={newTodoText}
               onChange={onInputChange}
             />
-            <button className="mini ui primary basic button" type="submit">
+            <button className="mini ui positive basic button" type="submit">
               Add Todo
+            </button>
+            <button
+              className="mini ui negative basic button"
+              onClick={onClearCompleted}
+            >
+              Remove completed
             </button>
           </div>
         </form>
