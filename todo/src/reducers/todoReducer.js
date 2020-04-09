@@ -13,7 +13,12 @@ export const todoReducer = (state, action) => {
     case "ADD_TODO":
       return [...state, action.payload];
     case "TOGGLE_TODO":
-      return [...state, { item: action.payload }];
+      return state.map(todo => {
+        if (todo.id === action.payload) {
+          return { ...todo, completed: !todo.completed };
+        }
+        return todo;
+      });
     case "CLEAR_COMPLETED":
       return; // use array method to check condition of completed, then deleting those
     default:

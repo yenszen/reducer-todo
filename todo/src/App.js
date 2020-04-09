@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from "react";
 import { todoReducer, initialTodoState } from "./reducers/todoReducer";
 import { v4 as uuidv4 } from "uuid";
+import "./App.css";
 
 function App() {
   const [todoState, dispatch] = useReducer(todoReducer, initialTodoState);
@@ -10,11 +11,11 @@ function App() {
     setNewTodoText(e.target.value);
   };
 
-  const onToggleCompleted = id => {
-    dispatch({
+  const onToggleCompleted = todo => {
+    // console.log(todo.id);
+    return dispatch({
       type: "TOGGLE_TODO",
-      // i need to send id data thru payload to tell reducer which todo to toggle!
-      payload: id
+      payload: todo.id
     });
   };
 
@@ -28,22 +29,41 @@ function App() {
   };
 
   return (
-    <div className="ui container">
-      <h1>My Todo App</h1>
-      {todoState.map(todo => {
-        return (
-          <div key={todo.id}>
-            <p>{todo.item}</p>
-            <button onClick={onToggleCompleted}>Completed</button>
-          </div>
-        );
-      })}
+    console.log(todoState),
+    (
+      <div className="ui container">
+        <h1>My Todo App</h1>
 
-      <form onSubmit={onFormSubmit}>
-        <input type="text" value={newTodoText} onChange={onInputChange} />
-        <button>Add Todo</button>
-      </form>
-    </div>
+        <form className="ui mini form" onSubmit={onFormSubmit}>
+          <div className="inline field">
+            <input
+              className="eight wide field"
+              type="text"
+              value={newTodoText}
+              onChange={onInputChange}
+            />
+            <button className="mini ui primary basic button" type="submit">
+              Add Todo
+            </button>
+          </div>
+        </form>
+
+        {todoState.map(todo => {
+          return (
+            <div key={todo.id}>
+              <div className="ui checkbox">
+                <input
+                  type="checkbox"
+                  name="toggleComplete"
+                  onClick={() => onToggleCompleted(todo)}
+                />
+                <label>{todo.item}</label>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )
   );
 }
 
