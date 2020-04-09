@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from "react";
 import { todoReducer, initialTodoState } from "./reducers/todoReducer";
 import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 import "./App.css";
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
         <form className="ui mini form" onSubmit={onFormSubmit}>
           <div className="inline field">
             <input
-              className="eight wide field"
+              className="six wide field"
               type="text"
               value={newTodoText}
               onChange={onInputChange}
@@ -55,7 +56,7 @@ function App() {
               className="mini ui negative basic button"
               onClick={onClearCompleted}
             >
-              Remove completed
+              Remove Completed
             </button>
           </div>
         </form>
@@ -70,6 +71,7 @@ function App() {
                   onClick={() => onToggleCompleted(todo)}
                 />
                 <label>{todo.item}</label>
+                {todo.completed ? <p>Completed {moment().format("MMM Do, h:mmA")}</p> : <p></p>}
               </div>
             </div>
           );
